@@ -148,9 +148,13 @@ namespace MicrosoftResearch { namespace Cambridge { namespace Sherwood
     return result;
 
 
-
-
   }
+
+
+ std::auto_ptr<DataPointCollection> DataPointCollection::Load(std::vector<std::string> &filenames)
+ {
+
+ }
 
   /// <summary>
   /// NOTWORKING : Generate a 2D dataset with data points distributed in a grid pattern.

@@ -22,6 +22,9 @@
 //#include "SemiSupervisedClassification.h"
 //#include "Regression.h"
 #include <boost/program_options.hpp>
+#include <vector>
+#include <opencv2/opencv.hpp>
+
 
 using namespace MicrosoftResearch::Cambridge::Sherwood;
 namespace po = boost::program_options;
@@ -34,7 +37,9 @@ void DisplayTextFiles(const std::string& relativePath);
 int discoverDims(std::string filename);
 
 std::auto_ptr<DataPointCollection> LoadTrainingData(const std::string& filename, const std::string& model_name, cv::Mat& biases_Mat, cv::Mat& divisors_Mat);
+std::auto_ptr<DataPointCollection> LoadTrainingData(std::vector<std::string> &filenames);
 std::auto_ptr<DataPointCollection> LoadTestingData(const std::string& filename,  const std::string& model_name, cv::Mat& biases_Mat,  cv::Mat& divisors_Mat);
+std::auto_ptr<DataPointCollection> LoadTestingData(std::vector<std::string> &filenames);
 
 
 
@@ -373,70 +378,18 @@ void parseArguments(po::variables_map& vm)
 
 }
 
-/*
-std::auto_ptr<DataPointCollection> LoadTrainingData(
-        const std::string& filename,
-        const std::string& alternativePath,
-        int dimension,
-        DataDescriptor::e descriptor)
+
+std::auto_ptr<DataPointCollection> LoadTrainingData(const std::vector<std::string>  &filenames)
 {
-  std::ifstream r;
+  std::vector<cv::Mat> imgs;
 
-  r.open(filename.c_str());
-  int dims = 0;
-  std::string line;
-  r>>line;
-  r.close ();
-
-  r.open(filename.c_str());
-
-  if(r.fail())
+  for (int i = 0;i<filenames.size();i++)
   {
-    std::string path;
-
-    try
-    {
-      path = GetExecutablePath();
-    }
-    catch(std::runtime_error& e)
-    {
-      std::cout<< "Failed to determine executable path. " << e.what();
-      return std::auto_ptr<DataPointCollection>(0);
-    }
-
-    path = path + alternativePath;
-
-    r.open(path.c_str());
-
-    if(r.fail())
-    {
-      std::cout << "Failed to open either \"" << filename << "\" or \"" << path.c_str() << "\"." << std::endl;
-      return std::auto_ptr<DataPointCollection>(0);
-    }
+    imgs.push_back(cv::imread(filenames[i]))
   }
 
-  std::auto_ptr<DataPointCollection> trainingData;
-  try
-  {
-    trainingData = DataPointCollection::Load (
-            r,
-            dimension,
-            descriptor );
-  }
-  catch (std::runtime_error& e)
-  {
-    std::cout << "Failed to read training data. " << e.what() << std::endl;
-    return std::auto_ptr<DataPointCollection>(0);
-  }
 
-  if (trainingData->Count() < 1)
-  {
-    std::cout << "Insufficient training data." << std::endl;
-    return std::auto_ptr<DataPointCollection>(0);
-  }
-
-  return trainingData;
-}*/
+}
 
 
 std::auto_ptr<DataPointCollection> LoadTrainingData(const std::string& filename,const std::string& model_name, cv::Mat& biases_Mat, cv::Mat& divisors_Mat)
