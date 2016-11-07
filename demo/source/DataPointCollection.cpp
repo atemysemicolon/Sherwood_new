@@ -153,6 +153,14 @@ namespace MicrosoftResearch { namespace Cambridge { namespace Sherwood
 
  std::auto_ptr<DataPointCollection> DataPointCollection::Load(std::vector<std::string> &filenames)
  {
+   std::vector<cv::Mat> imgs;
+
+   for (int i = 0;i<filenames.size();i++)
+   {
+     imgs.push_back(cv::imread(filenames[i]));
+   }
+
+   //Convert to trainingdata format
 
  }
 

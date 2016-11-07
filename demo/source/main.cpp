@@ -381,12 +381,7 @@ void parseArguments(po::variables_map& vm)
 
 std::auto_ptr<DataPointCollection> LoadTrainingData(const std::vector<std::string>  &filenames)
 {
-  std::vector<cv::Mat> imgs;
 
-  for (int i = 0;i<filenames.size();i++)
-  {
-    imgs.push_back(cv::imread(filenames[i]))
-  }
 
 
 }
